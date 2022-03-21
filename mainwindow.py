@@ -402,16 +402,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.xy_label.setText("Txy")
             self.xz_label.setText("Txz")
             self.yz_label.setText("Tyz")
-        elif self.type == "Stress":
 
+        elif self.type == "Stress":
             self.xx_label.setText("exx")
             self.yy_label.setText("eyy")
             self.zz_label.setText("ezz")
             self.xy_label.setText("exy")
             self.xz_label.setText("exz")
             self.yz_label.setText("eyz")
-
-
 
         self.xx_out.setText(str(self.xx_new))
         self.yy_out.setText(str(self.yy_new))
