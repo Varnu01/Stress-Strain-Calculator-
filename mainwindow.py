@@ -234,8 +234,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.xy_new = self.new_tensor[3]
                     self.xz_new = self.new_tensor[4]
                     self.yz_new = self.new_tensor[5]
-            else:
-                    
+            else:   
                 strain = array([
                     [self.xx],
                     [self.yy],
@@ -254,25 +253,140 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.yz_new = self.new_tensor[5]
 
         elif self.type == "Stress":
-            stress = array([
-                [self.xx],
-                [self.yy],
-                [self.zz],
-                [self.xy],
-                [self.xz], 
-                [self.yz]
-            ])
+            if self.plane_bool:
+                if self.plane_type == "Plane Stress":
+                    if self.xy_plane.isChecked():
+                        stress = array([
+                        [self.xx],
+                        [self.yy],
+                        [0],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
 
-            self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
 
-            self.xx_new = self.new_tensor[0]
-            self.yy_new = self.new_tensor[1]
-            self.zz_new = self.new_tensor[2]
-            self.xy_new = self.new_tensor[3]/2
-            self.xz_new = self.new_tensor[4]/2
-            self.yz_new = self.new_tensor[5]/2
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2
+
+                    elif self.yz_plane.isChecked():
+                        stress = array([
+                        [0],
+                        [self.yy],
+                        [self.zz],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
+
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2
+
+                    elif self.xz_plane.isChecked():
+                        stress = array([
+                        [self.xx],
+                        [0],
+                        [self.zz],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
+
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2
+                elif self.plane_type == "Plane Strain":
+                    if self.xy_plane.isChecked():
+                        stress = array([
+                        [self.xx],
+                        [self.yy],
+                        [self.v * (self.xx+self.yy)],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
+
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2
+
+                    elif self.yz_plane.isChecked():
+                        stress = array([
+                        [self.v * (self.yy + self.zz)],
+                        [self.yy],
+                        [self.zz],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
+
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2
+                    elif self.xz_plane.isChecked():
+                        stress = array([
+                        [self.xx],
+                        [self.v * (self.xx + self.zz)],
+                        [self.zz],
+                        [self.xy],
+                        [self.xz], 
+                        [self.yz]
+                        ])
+
+                        self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                        self.xx_new = self.new_tensor[0]
+                        self.yy_new = self.new_tensor[1]
+                        self.zz_new = self.new_tensor[2]
+                        self.xy_new = self.new_tensor[3]/2
+                        self.xz_new = self.new_tensor[4]/2
+                        self.yz_new = self.new_tensor[5]/2 
+
+            else: 
+                stress = array([
+                    [self.xx],
+                    [self.yy],
+                    [self.zz],
+                    [self.xy],
+                    [self.xz], 
+                    [self.yz]
+                ])
+
+                self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress))
+
+                self.xx_new = self.new_tensor[0]
+                self.yy_new = self.new_tensor[1]
+                self.zz_new = self.new_tensor[2]
+                self.xy_new = self.new_tensor[3]/2
+                self.xz_new = self.new_tensor[4]/2
+                self.yz_new = self.new_tensor[5]/2
         
-
         return self.xx_new,self.yy_new, self.zz_new, self.xy_new, self.xz_new, self.yz_new
     def onRun(self):
         self.process_type()
