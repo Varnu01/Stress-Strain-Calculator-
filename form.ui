@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>535</width>
+    <height>314</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_10">
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="pages">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="4" column="0">
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="1">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Angle (in degrees)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="angle">
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="transformation">
+            <property name="text">
+             <string>Transformation </string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="stress_input">
+            <property name="text">
+             <string>Stress</string>
+            </property>
+            <property name="autoRepeat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="strain_input">
+            <property name="text">
+             <string>Strain</string>
+            </property>
+            <property name="autoRepeat">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Known</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="gridLayout_9">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="plane">
+            <property name="text">
+             <string>Plane Problem?</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="1">
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="2" column="2">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>v</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>E</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Material Input </string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QDoubleSpinBox" name="E">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QDoubleSpinBox" name="v">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="6" column="2">
+           <widget class="QDoubleSpinBox" name="zz">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QDoubleSpinBox" name="zx">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QDoubleSpinBox" name="zy">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QDoubleSpinBox" name="xx">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-99999999999999996863366107917975552.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>99999999999999996863366107917975552.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QDoubleSpinBox" name="yz">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QDoubleSpinBox" name="yy">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QDoubleSpinBox" name="yx">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-1000000000000000044885712678075916785549312.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QDoubleSpinBox" name="xz">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-100000000000000000620008645040778319495168.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000000000000000725314363815292351261583744096465219555182101554790400.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QDoubleSpinBox" name="xy">
+            <property name="decimals">
+             <number>10</number>
+            </property>
+            <property name="minimum">
+             <double>-100000000000000007629769841091887003294964970946560.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>10000000000000000213204190094543968723012578712679649467743338496.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="xy_plane">
+            <property name="text">
+             <string>xy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="yz_plane">
+            <property name="text">
+             <string>yz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QRadioButton" name="xz_plane">
+            <property name="text">
+             <string>xz</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QPushButton" name="run">
+          <property name="text">
+           <string>Run </string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Outputs </string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QLineEdit" name="yz_out"/>
+          </item>
+          <item row="3" column="5">
+           <widget class="QLineEdit" name="xz_out"/>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLineEdit" name="zz_out"/>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="xx_out"/>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="yy_label">
+            <property name="text">
+             <string>Oyy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="zz_label">
+            <property name="text">
+             <string>Ozz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="xx_label">
+            <property name="text">
+             <string>Oxx</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLineEdit" name="yy_out"/>
+          </item>
+          <item row="2" column="4">
+           <widget class="QLabel" name="yz_label">
+            <property name="text">
+             <string>Tyz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="xy_label">
+            <property name="text">
+             <string>Txy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QLineEdit" name="xy_out"/>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="xz_label">
+            <property name="text">
+             <string>Txz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Strain Energy Density</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3" colspan="3">
+           <widget class="QLineEdit" name="strain_energy"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>535</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMSY_Application">
+    <property name="title">
+     <string>MSY Application </string>
+    </property>
+   </widget>
+   <addaction name="menuMSY_Application"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <tabstops>
+  <tabstop>stress_input</tabstop>
+  <tabstop>strain_input</tabstop>
+  <tabstop>plane</tabstop>
+  <tabstop>xy_plane</tabstop>
+  <tabstop>yz_plane</tabstop>
+  <tabstop>xz_plane</tabstop>
+  <tabstop>xx</tabstop>
+  <tabstop>xy</tabstop>
+  <tabstop>xz</tabstop>
+  <tabstop>yx</tabstop>
+  <tabstop>yy</tabstop>
+  <tabstop>yz</tabstop>
+  <tabstop>zx</tabstop>
+  <tabstop>zy</tabstop>
+  <tabstop>zz</tabstop>
+  <tabstop>transformation</tabstop>
+  <tabstop>angle</tabstop>
+  <tabstop>E</tabstop>
+  <tabstop>v</tabstop>
+  <tabstop>run</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
