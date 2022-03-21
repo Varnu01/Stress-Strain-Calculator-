@@ -41,7 +41,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def process_type(self):
         self.type = None 
-        self.plane_bool = False 
+        self.plane_bool = False
+        self.plane_type = None 
         ErrorText = None 
         
         if self.stress_input.isChecked():
@@ -54,6 +55,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if self.plane.isChecked():
             self.plane_bool = True
+            if self.plane_stress.isChecked():
+                self.plane_type = "Plane Stress"
+            elif self.plane_stress.isChecked():
+                self.plane_type = "Plane Strain"
+
         else: 
             self.plane_bool = False
         if self.plane_bool:
@@ -158,24 +164,94 @@ class MainWindow(QtWidgets.QMainWindow):
                 [0,0,0,0,0,(1-(2*self.v))/(2*(1-self.v))]
             ])
 
-
         if self.type == "Strain":
-            strain = array([
-                [self.xx],
-                [self.yy],
-                [self.zz],
-                [self.xy*2],
-                [self.xz*2], 
-                [self.yz*2]
-            ])
-            self.new_tensor = constant * (prop.dot(strain))
+            if self.plane_bool:
+                if self.plane_type == "Plane Strain":
+                    if self.xy_plane.isChecked():
+                        strain = array([
+                        [self.xx],
+                        [self.yy],
+                        [0],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
+                    elif self.yz_plane.isChecked():
+                        strain = array([
+                        [0],
+                        [self.yy],
+                        [self.zz],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
 
-            self.xx_new = self.new_tensor[0]
-            self.yy_new = self.new_tensor[1]
-            self.zz_new = self.new_tensor[2]
-            self.xy_new = self.new_tensor[3]
-            self.xz_new = self.new_tensor[4]
-            self.yz_new = self.new_tensor[5]
+                    elif self.xz_plane.isChecked():
+                        strain = array([
+                        [self.xx],
+                        [0],
+                        [self.zz],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
+                elif self.plane_type == "Plane Stress":
+                    if self.xz_plane.isChecked():
+                        strain = array([
+                        [self.xx],
+                        [(-self.v/(1-self.v)) * (self.xx + self.zz)],
+                        [self.zz],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
+
+                    elif self.xy_plane.isChecked():
+                        strain = array([
+                        [self.xx],
+                        [self.yy],
+                        [(-self.v/(1-self.v)) * (self.xx + self.yy)],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
+
+                    elif self.yz_plane.isChecked():
+                        strain = array([
+                        [(-self.v/(1-self.v)) * (self.zz + self.yy)],
+                        [self.yy],
+                        [self.zz],
+                        [self.xy*2],
+                        [self.xz*2], 
+                        [self.yz*2]
+                        ])
+
+                    self.new_tensor = constant * (prop.dot(strain))
+
+                    self.xx_new = self.new_tensor[0]
+                    self.yy_new = self.new_tensor[1]
+                    self.zz_new = self.new_tensor[2]
+                    self.xy_new = self.new_tensor[3]
+                    self.xz_new = self.new_tensor[4]
+                    self.yz_new = self.new_tensor[5]
+            else:
+                    
+                strain = array([
+                    [self.xx],
+                    [self.yy],
+                    [self.zz],
+                    [self.xy*2],
+                    [self.xz*2], 
+                    [self.yz*2]
+                ])
+                self.new_tensor = constant * (prop.dot(strain))
+
+                self.xx_new = self.new_tensor[0]
+                self.yy_new = self.new_tensor[1]
+                self.zz_new = self.new_tensor[2]
+                self.xy_new = self.new_tensor[3]
+                self.xz_new = self.new_tensor[4]
+                self.yz_new = self.new_tensor[5]
 
         elif self.type == "Stress":
             stress = array([
