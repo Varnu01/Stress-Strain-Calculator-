@@ -374,7 +374,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     [self.xz], 
                     [self.yz]
                 ])
-
+        
                 self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress_unit * stress))
 
                 self.xx_new = self.new_tensor[0]
