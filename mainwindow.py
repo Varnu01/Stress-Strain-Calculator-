@@ -27,8 +27,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.yz_plane.toggled.connect(self.process_type)
         self.xz_plane.toggled.connect(self.process_type)
         self.run.clicked.connect(self.onRun)
+        self._return.clicked.connect(self.onReturn)
 
 
+    def onReturn(self):
+        self.close()
+        self.__init__()
     
     def process_units(self):
         if self.stress_input.isChecked():
@@ -50,12 +54,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.zy = self.zy.value()
         self.zz = self.zz.value()
 
-        self.tensor = array([
-            [self.xx,self.xy,self.xz],
-            [self.yx,self.yy,self.yz],
-            [self.zx,self.zy,self.zz]
-        ])
-
     def process_type(self):
         self.type = None 
         self.plane_bool = False
@@ -74,7 +72,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.plane_bool = True
             if self.plane_stress.isChecked():
                 self.plane_type = "Plane Stress"
-            elif self.plane_stress.isChecked():
+            elif self.plane_strain.isChecked():
                 self.plane_type = "Plane Strain"
 
         elif self.plane.isChecked() == False: 
@@ -112,8 +110,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.zz.setEnabled(True)
                 self.zy.setEnabled(True)
                 self.yy.setEnabled(True)
-
-
 
             elif self.xz_plane.isChecked():
                 self.yy.setEnabled(False)
@@ -262,15 +258,6 @@ class MainWindow(QtWidgets.QMainWindow):
                         [self.yz*2]
                         ])
 
-                self.new_tensor = constant * (prop.dot(strain_unit*strain))
-
-                self.xx_new = self.new_tensor[0]
-                self.yy_new = self.new_tensor[1]
-                self.zz_new = self.new_tensor[2]
-                self.xy_new = self.new_tensor[3]
-                self.xz_new = self.new_tensor[4]
-                self.yz_new = self.new_tensor[5]
-
             else:   
                 strain = array([
                     [self.xx],
@@ -281,14 +268,14 @@ class MainWindow(QtWidgets.QMainWindow):
                     [self.yz*2]
                 ])
 
-                self.new_tensor = constant * (prop.dot(strain_unit * strain))
+            self.new_tensor = constant * (prop.dot(strain_unit * strain))
 
-                self.xx_new = self.new_tensor[0]
-                self.yy_new = self.new_tensor[1]
-                self.zz_new = self.new_tensor[2]
-                self.xy_new = self.new_tensor[3]
-                self.xz_new = self.new_tensor[4]
-                self.yz_new = self.new_tensor[5]
+            self.xx_new = self.new_tensor[0]
+            self.yy_new = self.new_tensor[1]
+            self.zz_new = self.new_tensor[2]
+            self.xy_new = self.new_tensor[3]
+            self.xz_new = self.new_tensor[4]
+            self.yz_new = self.new_tensor[5]
 
         elif self.type == "Stress":
             if self.plane_bool:
@@ -360,15 +347,6 @@ class MainWindow(QtWidgets.QMainWindow):
                         [self.yz]
                         ])
 
-                self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress_unit * stress))
-
-                self.xx_new = self.new_tensor[0]
-                self.yy_new = self.new_tensor[1]
-                self.zz_new = self.new_tensor[2]
-                self.xy_new = self.new_tensor[3]/2
-                self.xz_new = self.new_tensor[4]/2
-                self.yz_new = self.new_tensor[5]/2 
-            
             else: 
                 stress = array([
                     [self.xx],
@@ -379,24 +357,20 @@ class MainWindow(QtWidgets.QMainWindow):
                     [self.yz]
                     ])
         
-                self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress_unit * stress))
+            self.new_tensor = (1/constant)*(numpy.linalg.inv(prop).dot(stress_unit * stress))
 
-                self.xx_new = self.new_tensor[0]
-                self.yy_new = self.new_tensor[1]
-                self.zz_new = self.new_tensor[2]
-                self.xy_new = self.new_tensor[3]/2
-                self.xz_new = self.new_tensor[4]/2
-                self.yz_new = self.new_tensor[5]/2
-        
+            self.xx_new = self.new_tensor[0]
+            self.yy_new = self.new_tensor[1]
+            self.zz_new = self.new_tensor[2]
+            self.xy_new = self.new_tensor[3]/2
+            self.xz_new = self.new_tensor[4]/2
+            self.yz_new = self.new_tensor[5]/2
+    
         
         if self.type == "Strain":
             self.u = (1/2) * (numpy.tensordot(self.new_tensor, strain))
         elif self.type == "Stress":
             self.u = (1/2) * (numpy.tensordot(stress,self.new_tensor))
-
-
-        
-        # return self.xx_new,self.yy_new, self.zz_new, self.xy_new, self.xz_new, self.yz_new
 
     def onRun(self):
         self.process_type()
@@ -429,8 +403,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xz_out.setText(str(self.xz_new))
         self.yz_out.setText(str(self.yz_new))
         self.strain_energy.setText(str(self.u))
-
-        
 
   
 

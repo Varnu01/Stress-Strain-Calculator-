@@ -351,6 +351,52 @@
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_4">
+          <item row="3" column="5">
+           <widget class="QLineEdit" name="yz_out"/>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLineEdit" name="yy_out"/>
+          </item>
+          <item row="7" column="2">
+           <widget class="QPushButton" name="_return">
+            <property name="text">
+             <string>Return </string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="zz_label">
+            <property name="text">
+             <string>Ozz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="5">
+           <widget class="QLineEdit" name="xy_out"/>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="yz_label">
+            <property name="text">
+             <string>Tyz</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QLineEdit" name="xx_out"/>
+          </item>
+          <item row="4" column="3">
+           <widget class="QLineEdit" name="zz_out"/>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="yy_label">
+            <property name="text">
+             <string>Oyy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="5">
+           <widget class="QLineEdit" name="xz_out"/>
+          </item>
           <item row="0" column="2">
            <widget class="QLabel" name="label_2">
             <property name="text">
@@ -358,75 +404,46 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="5">
-           <widget class="QLineEdit" name="yz_out"/>
-          </item>
-          <item row="3" column="5">
-           <widget class="QLineEdit" name="xz_out"/>
-          </item>
-          <item row="3" column="3">
-           <widget class="QLineEdit" name="zz_out"/>
-          </item>
-          <item row="1" column="3">
-           <widget class="QLineEdit" name="xx_out"/>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="yy_label">
-            <property name="text">
-             <string>Oyy</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="zz_label">
-            <property name="text">
-             <string>Ozz</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLabel" name="xx_label">
-            <property name="text">
-             <string>Oxx</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
-           <widget class="QLineEdit" name="yy_out"/>
-          </item>
           <item row="2" column="4">
-           <widget class="QLabel" name="yz_label">
-            <property name="text">
-             <string>Tyz</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="4">
            <widget class="QLabel" name="xy_label">
             <property name="text">
              <string>Txy</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5">
-           <widget class="QLineEdit" name="xy_out"/>
+          <item row="2" column="2">
+           <widget class="QLabel" name="xx_label">
+            <property name="text">
+             <string>Oxx</string>
+            </property>
+           </widget>
           </item>
-          <item row="3" column="4">
+          <item row="4" column="4">
            <widget class="QLabel" name="xz_label">
             <property name="text">
              <string>Txz</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="2">
+          <item row="6" column="2">
            <widget class="QLabel" name="label_13">
             <property name="text">
              <string>Strain Energy Density</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="3" colspan="3">
+          <item row="6" column="3" colspan="3">
            <widget class="QLineEdit" name="strain_energy"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Units </string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QComboBox" name="output_unit"/>
           </item>
          </layout>
         </item>
@@ -442,7 +459,7 @@
      <x>0</x>
      <y>0</y>
      <width>796</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMSY_Application">
