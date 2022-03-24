@@ -28,7 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xz_plane.toggled.connect(self.process_type)
         self.run.clicked.connect(self.onRun)
         self._return.clicked.connect(self.onReturn)
-        self.output_unit.currentIndexChanged.connect(self.change_output)
+        
 
 
     def onReturn(self):
@@ -63,8 +63,10 @@ class MainWindow(QtWidgets.QMainWindow):
         
         if self.stress_input.isChecked():
             self.type = "Stress"
+            
         elif self.strain_input.isChecked():
             self.type = "Strain"
+
         
         else: 
             ErrorText = "Input Type is not selected"
@@ -374,8 +376,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.u = (1/2) * (numpy.tensordot(stress,self.new_tensor))
 
     def change_output(self):
-        self.output_unit.clear()
-        self.process_output_unit()
+        if self.type == "Stress":
+            index = self.output_unit.currentIndex()
+            self.out_unit = strain_units_values[index]
+        elif self.type == "Strain":
+            index = self.output_unit.currentIndex()
+            self.out_unit = stress_units_values[index]
         self.xx_out.setText(str(self.xx_new/self.out_unit))
         self.yy_out.setText(str(self.yy_new/self.out_unit))
         self.zz_out.setText(str(self.zz_new/self.out_unit))
@@ -383,22 +389,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xz_out.setText(str(self.xz_new/self.out_unit))
         self.yz_out.setText(str(self.yz_new/self.out_unit))
 
-    def process_output_unit(self):
-        if self.type == "Stress":
-            self.output_unit.addItems(strain_units)
-            index = self.output_unit.currentIndex()
-            self.out_unit = strain_units_values[index]
-        elif self.type == "Strain":
-            self.output_unit.addItems(stress_units)
-            index = self.output_unit.currentIndex()
-            self.out_unit = stress_units_values[index]
 
     def onRun(self):
         self.process_type()
         self.process_data()
         self.process_transform_material()
         self.process_tensor()
-        self.process_output_unit()
+        
+        if self.type == 'Strain':
+            self.output_unit.addItems(stress_units)
+        elif self.type == "Stress":
+            self.output_unit.addItems(strain_units)
+
+        self.output_unit.currentIndexChanged.connect(self.change_output)
+        self.change_output()
         
         self.pages.setCurrentIndex(1)
         if self.type == "Strain":
@@ -416,7 +420,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.xy_label.setText("exy")
             self.xz_label.setText("exz")
             self.yz_label.setText("eyz")
-            self.output_unit.addItems(strain_units)
 
         self.xx_out.setText(str(self.xx_new/self.out_unit))
         self.yy_out.setText(str(self.yy_new/self.out_unit))
@@ -424,6 +427,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xy_out.setText(str(self.xy_new/self.out_unit))
         self.xz_out.setText(str(self.xz_new/self.out_unit))
         self.yz_out.setText(str(self.yz_new/self.out_unit))
+        self.strain_energy.setText(str(self.u))
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()
