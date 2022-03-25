@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+from cmath import sin
 from logging import raiseExceptions
 import os
 from pathlib import Path
@@ -6,6 +7,7 @@ import sys
 
 import numpy 
 from numpy import array 
+from numpy import sin, cos 
 from PyQt5 import QtWidgets, uic
 
 stress_units = ['Pa', "KPa", 'MPa', 'GPa']
@@ -28,9 +30,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xz_plane.toggled.connect(self.process_type)
         self.run.clicked.connect(self.onRun)
         self._return.clicked.connect(self.onReturn)
+        self.transformation.clicked.connect(self.process_type)
+    
         
-
-
     def onReturn(self):
         self.close()
         self.__init__()
@@ -55,6 +57,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.zy = self.zy.value()
         self.zz = self.zz.value()
 
+        self.tensor = array([
+            [self.xx, self.xy, self.xz],
+            [self.yx, self.yy, self.yz],
+            [self.zx, self.zy, self.zz]
+        ])
+
+
     def process_type(self):
         self.type = None 
         self.plane_bool = False
@@ -66,10 +75,15 @@ class MainWindow(QtWidgets.QMainWindow):
             
         elif self.strain_input.isChecked():
             self.type = "Strain"
-
-        
         else: 
             ErrorText = "Input Type is not selected"
+        
+        if self.transformation.isChecked():
+            self.angle.setEnabled(True)
+
+        
+        if self.transformation.isChecked() == False:
+            self.angle.setEnabled(False)
 
         if self.plane.isChecked():
             self.plane_bool = True
@@ -145,13 +159,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             return self.type, self.plane_bool
 
-    def process_transform_material(self):
-        if self.transformation.isChecked():
-            self.angle = self.angle.value()
-
-        else:
-            self.angle.setEnabled(False)
-        
+    def process_material(self):
         index = self.E_units.currentIndex()
         E_unit = stress_units_values[index]
         E = self.E.value()
@@ -166,8 +174,16 @@ class MainWindow(QtWidgets.QMainWindow):
         elif self.type == "Strain": 
             index = self.units_dropdown.currentIndex()
             strain_unit = strain_units_values[index]
-            
         
+        if self.transformation.isChecked() == True and self.type == "Stress":
+            index = self.units_dropdown.currentIndex()
+            stress_unit = stress_units_values[index]
+        
+        elif self.transformation.isChecked() == True and self.type == "Strain":
+            index = self.units_dropdown.currentIndex()
+            strain_unit = strain_units_values[index]
+    
+            
         if self.plane.isChecked():
             if self.xy_plane.isChecked():
                 self.xz = 0
@@ -186,18 +202,38 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.xy = 0
                 self.yz = 0
                 self.zy = 0
-            
-        constant = (self.E*(1-self.v))/((1+self.v)*(1-(2*self.v)))
-        prop = array([
-                [1,(self.v/(1-self.v)),(self.v/(1-self.v)),0,0,0],
-                [(self.v/(1-self.v)),1,(self.v/(1-self.v)),0,0,0],
-                [(self.v/(1-self.v)),(self.v/(1-self.v)),1,0,0,0],
-                [0,0,0,(1-(2*self.v))/(2*(1-self.v)),0,0],
-                [0,0,0,0,(1-(2*self.v))/(2*(1-self.v)),0],
-                [0,0,0,0,0,(1-(2*self.v))/(2*(1-self.v))]
-                ])
 
-        if self.type == "Strain":
+        if self.transformation.isChecked() == False:
+            constant = (self.E*(1-self.v))/((1+self.v)*(1-(2*self.v)))
+            prop = array([
+                    [1,(self.v/(1-self.v)),(self.v/(1-self.v)),0,0,0],
+                    [(self.v/(1-self.v)),1,(self.v/(1-self.v)),0,0,0],
+                    [(self.v/(1-self.v)),(self.v/(1-self.v)),1,0,0,0],
+                    [0,0,0,(1-(2*self.v))/(2*(1-self.v)),0,0],
+                    [0,0,0,0,(1-(2*self.v))/(2*(1-self.v)),0],
+                    [0,0,0,0,0,(1-(2*self.v))/(2*(1-self.v))]
+                    ])
+
+        elif self.transformation.isChecked():
+            self.angle = self.angle.value()
+            a = self.angle
+            Q = array([
+                [cos(a), -sin(a), 0],
+                [sin(a), cos(a), 0],
+                [0,0,1]
+                ])  
+            Q_t = numpy.matrix.transpose(Q)
+            self.new_tensor = Q_t @ self.tensor @ Q 
+
+            self.xx_new = self.new_tensor[0]
+            self.yy_new = self.new_tensor[1]
+            self.zz_new = self.new_tensor[2]
+            self.xy_new = self.new_tensor[3]
+            self.xz_new = self.new_tensor[4]
+            self.yz_new = self.new_tensor[5]
+            
+   
+        if self.type == "Strain" and self.transformation.isChecked() == False:
             if self.plane_bool:
                 if self.plane_type == "Plane Strain":
                     if self.xy_plane.isChecked():
@@ -280,7 +316,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.xz_new = self.new_tensor[4]
             self.yz_new = self.new_tensor[5]
 
-        elif self.type == "Stress":
+        elif self.type == "Stress" and self.transformation.isChecked() == False:
             if self.plane_bool:
                 if self.plane_type == "Plane Stress":
                     if self.xy_plane.isChecked():
@@ -370,9 +406,9 @@ class MainWindow(QtWidgets.QMainWindow):
             self.yz_new = self.new_tensor[5]/2
     
         
-        if self.type == "Strain":
+        if self.type == "Strain" and self.transformation.isChecked() == False:
             self.u = (1/2) * (numpy.tensordot(self.new_tensor, strain))
-        elif self.type == "Stress":
+        elif self.type == "Stress" and self.transformation.isChecked() == False:
             self.u = (1/2) * (numpy.tensordot(stress,self.new_tensor))
 
     def change_output(self):
@@ -393,7 +429,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def onRun(self):
         self.process_type()
         self.process_data()
-        self.process_transform_material()
+        self.process_material()
         self.process_tensor()
         
         if self.type == 'Strain':
