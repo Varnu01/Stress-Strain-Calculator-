@@ -3,12 +3,13 @@ from cmath import sin
 from logging import raiseExceptions
 import os
 from pathlib import Path
+from re import L
 import sys
 
 import numpy 
 from numpy import array 
 from numpy import math 
-from math import sin,cos
+from math import sin,cos,radians
 from PyQt5 import QtWidgets, uic
 
 stress_units = ['Pa', "KPa", 'MPa', 'GPa']
@@ -216,7 +217,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     ])
 
         elif self.transformation.isChecked():
-            self.angle = self.angle.value()
+            self.angle = radians(self.angle.value())
             a = self.angle
             Q = array([
                 [cos(a), -sin(a), 0],
@@ -224,14 +225,14 @@ class MainWindow(QtWidgets.QMainWindow):
                 [0,0,1]
                 ])  
             Q_t = numpy.matrix.transpose(Q)
-            self.new_tensor = Q_t @ self.tensor @ Q 
+            self.new_tensor = (Q_t @ self.tensor) @ Q 
 
-            self.xx_new = self.new_tensor[0]
-            self.yy_new = self.new_tensor[1]
-            self.zz_new = self.new_tensor[2]
-            self.xy_new = self.new_tensor[3]
-            self.xz_new = self.new_tensor[4]
-            self.yz_new = self.new_tensor[5]
+            self.xx_new = self.new_tensor[0][0]
+            self.yy_new = self.new_tensor[1][1]
+            self.zz_new = self.new_tensor[2][2]
+            self.xy_new = self.new_tensor[0][1]
+            self.xz_new = self.new_tensor[0][2]
+            self.yz_new = self.new_tensor[1][2]
             
    
         if self.type == "Strain" and self.transformation.isChecked() == False:
@@ -413,12 +414,26 @@ class MainWindow(QtWidgets.QMainWindow):
             self.u = (1/2) * (numpy.tensordot(stress,self.new_tensor))
 
     def change_output(self):
-        if self.type == "Stress":
+        
+        
+        if self.transformation.isChecked():
+            if self.type == "Stress":
+                index = self.output_unit.currentIndex()
+                self.out_unit = stress_units_values[index]
+            elif self.type == "Strain":
+                index = self.output_unit.currentIndex()
+                self.out_unit = strain_units_values[index]
+        
+        
+        elif self.type == "Stress":
             index = self.output_unit.currentIndex()
             self.out_unit = strain_units_values[index]
         elif self.type == "Strain":
             index = self.output_unit.currentIndex()
             self.out_unit = stress_units_values[index]
+        
+
+
         self.xx_out.setText(str(self.xx_new/self.out_unit))
         self.yy_out.setText(str(self.yy_new/self.out_unit))
         self.zz_out.setText(str(self.zz_new/self.out_unit))
@@ -433,10 +448,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.process_material()
         self.process_tensor()
         
-        if self.type == 'Strain':
+        if self.transformation.isChecked():
+            if self.type == "Stress":
+                self.output_unit.addItems(stress_units)
+            elif self.type == "Strain":
+                self.output_unit.addItems(strain_units)
+        
+        elif self.type == 'Strain':
             self.output_unit.addItems(stress_units)
         elif self.type == "Stress":
             self.output_unit.addItems(strain_units)
+        
+ 
 
         self.output_unit.currentIndexChanged.connect(self.change_output)
         self.change_output()
@@ -457,6 +480,26 @@ class MainWindow(QtWidgets.QMainWindow):
             self.xy_label.setText("exy")
             self.xz_label.setText("exz")
             self.yz_label.setText("eyz")
+        
+        if self.transformation.isChecked():
+            if self.type == "Stress":
+                self.xx_label.setText("Oxx")
+                self.yy_label.setText("Oyy")
+                self.zz_label.setText("Ozz")
+                self.xy_label.setText("Txy")
+                self.xz_label.setText("Txz")
+                self.yz_label.setText("Tyz")
+
+
+            
+            elif self.type == "Strain":
+                self.xx_label.setText("exx")
+                self.yy_label.setText("eyy")
+                self.zz_label.setText("ezz")
+                self.xy_label.setText("exy")
+                self.xz_label.setText("exz")
+                self.yz_label.setText("eyz")
+
 
         self.xx_out.setText(str(self.xx_new/self.out_unit))
         self.yy_out.setText(str(self.yy_new/self.out_unit))
@@ -464,7 +507,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.xy_out.setText(str(self.xy_new/self.out_unit))
         self.xz_out.setText(str(self.xz_new/self.out_unit))
         self.yz_out.setText(str(self.yz_new/self.out_unit))
-        self.strain_energy.setText(str(self.u))
+        
+        if self.transformation.isChecked() == False:
+
+            self.strain_energy.setText(str(self.u))
 
 app = QtWidgets.QApplication(sys.argv)
 window = MainWindow()
