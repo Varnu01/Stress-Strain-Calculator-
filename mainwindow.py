@@ -7,7 +7,8 @@ import sys
 
 import numpy 
 from numpy import array 
-from numpy import sin, cos 
+from numpy import math 
+from math import sin,cos
 from PyQt5 import QtWidgets, uic
 
 stress_units = ['Pa', "KPa", 'MPa', 'GPa']
