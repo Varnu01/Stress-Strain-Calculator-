@@ -407,14 +407,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.xz_new = self.new_tensor[4]/2
             self.yz_new = self.new_tensor[5]/2
     
-        
         if self.type == "Strain" and self.transformation.isChecked() == False:
             self.u = (1/2) * (numpy.tensordot(self.new_tensor, strain))
         elif self.type == "Stress" and self.transformation.isChecked() == False:
             self.u = (1/2) * (numpy.tensordot(stress,self.new_tensor))
 
     def change_output(self):
-        
         
         if self.transformation.isChecked():
             if self.type == "Stress":
@@ -431,8 +429,6 @@ class MainWindow(QtWidgets.QMainWindow):
         elif self.type == "Strain":
             index = self.output_unit.currentIndex()
             self.out_unit = stress_units_values[index]
-        
-
 
         self.xx_out.setText(str(self.xx_new/self.out_unit))
         self.yy_out.setText(str(self.yy_new/self.out_unit))
@@ -490,8 +486,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.xz_label.setText("Txz")
                 self.yz_label.setText("Tyz")
 
-
-            
             elif self.type == "Strain":
                 self.xx_label.setText("exx")
                 self.yy_label.setText("eyy")
